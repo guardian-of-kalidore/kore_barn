@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Bootstrap 101 Template</title>
+
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/jquery-ui.css">
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="js/jquery-2.2.4.js"></script>
+    <script src="js/jquery-ui.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+<h1>Hello, world!</h1>
+
+
+<div class="ui-widget">
+    <label for="tags">Tags: </label>
+    <input id="tags">
+</div>
+
+<div class="ui-widget">
+    <label for="owners">Owners: </label>
+    <input id="owners" value="Delicious">
+</div>
+
+<div id="korepics">
+
+</div>
+
+<script>
+    var sheetsObj = {};
+    $.get({
+        url : "https://sheets.googleapis.com/v4/spreadsheets/1PiG0ya_hj34uxPrOFxFyFo7IfWiqsfHQVpw5_9cXtdw?key=AIzaSyAfUvcOqn6jTU6pGNbqBLsGw05yIJlmZtg"
+    }).success(function(data){
+
+        var sheetsArr = [];
+
+
+
+        for(var x in data["sheets"]){
+            var sheetId = data["sheets"][x]["properties"]["sheetId"];
+            var title = data["sheets"][x]["properties"]["title"];
+            var index = data["sheets"][x]["properties"]["index"];
+            var rows = data["sheets"][x]["properties"]["gridProperties"]["rowCount"];
+            var cols = data["sheets"][x]["properties"]["gridProperties"]["columnCount"];
+
+            console.log(title + ":" + rows + "," + cols);
+//            var sheet = [index, sheetId, title, rows, cols];
+//            sheetsArr.push(sheet);
+
+            sheetsObj[title] = {
+                "rows" : rows,
+                "cols" : cols,
+                "sheetId" : sheetId,
+                "sheetIndex" : index
+            };
+        }
+
+
+    });
+
+    $.get({
+        url : "https://sheets.googleapis.com/v4/spreadsheets/1PiG0ya_hj34uxPrOFxFyFo7IfWiqsfHQVpw5_9cXtdw/values/A1%3AA2?key=AIzaSyAfUvcOqn6jTU6pGNbqBLsGw05yIJlmZtg"
+        ,data : {
+            "range": "Kore!E:F",
+            "majorDimension": "ROWS"
+        }
+    }).success(function(data) {
+
+        var skippedFirst = false;
+
+        for(x in data["values"]){
+            if(!skippedFirst){
+                skippedFirst = true;
+                continue;
+            }
+            if(data["values"][x].length < 2)
+                continue;
+
+            if(data["values"][x][1] != $("#owners").val()){
+                continue;
+            }
+
+            console.log(data["values"][x]);
+            var img = $("<img>");
+            img.attr({'src': data["values"][x][0]});
+            $("#korepics").append(img)
+        }
+
+    });
+
+    $.get({
+        url : "https://sheets.googleapis.com/v4/spreadsheets/1PiG0ya_hj34uxPrOFxFyFo7IfWiqsfHQVpw5_9cXtdw/values/A1%3AA2?key=AIzaSyAfUvcOqn6jTU6pGNbqBLsGw05yIJlmZtg"
+        ,data : {
+            "range": "Owners!B2:B136",
+            "majorDimension": "COLUMNS"
+        }
+    }).success(function(data){
+
+        var possOwners = data["values"][0];
+
+        $( "#owners" ).autocomplete({
+            source: possOwners
+        });
+
+        console.log(possOwners);
+
+
+
+    });
+
+
+    $.get({
+        url : "https://sheets.googleapis.com/v4/spreadsheets/1PiG0ya_hj34uxPrOFxFyFo7IfWiqsfHQVpw5_9cXtdw/values/A1%3AA2?key=AIzaSyAfUvcOqn6jTU6pGNbqBLsGw05yIJlmZtg"
+        ,data : {
+            "range": "Analytics!A1:B2",
+            "majorDimension": "ROWS"
+        }
+    }).success(function(data){
+
+        data = data["values"];
+        console.log(data[0][0] + data[0][1]);
+        console.log(data[1][0] + data[1][1]);
+
+
+    });
+</script>
+<script>
+    $( function() {
+        var availableTags = [
+            "ActionScript",
+            "AppleScript",
+            "Asp",
+            "BASIC",
+            "C",
+            "C++",
+            "Clojure",
+            "COBOL",
+            "ColdFusion",
+            "Erlang",
+            "Fortran",
+            "Groovy",
+            "Haskell",
+            "Java",
+            "JavaScript",
+            "Lisp",
+            "Perl",
+            "PHP",
+            "Python",
+            "Ruby",
+            "Scala",
+            "Scheme"
+        ];
+        $( "#tags" ).autocomplete({
+            source: availableTags
+        });
+    } );
+</script>
+
+
+
+</body>
+</html>
