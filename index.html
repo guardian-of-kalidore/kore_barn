@@ -1,10 +1,168 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Kore Search</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+
+    <!-- Custom CSS -->
+    <link href="css/round-about.css" rel="stylesheet">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="js/jquery-2.2.4.js"></script>
+    <!-- jQuery-UI stuff -->
+    <script src="js/jquery-ui.js"></script>
+    <link rel="stylesheet" href="css/jquery-ui.css">
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.min.js"></script>
 </head>
+
 <body>
-    DID YOU KNOW
+<div class="container-fluid col-lg-8 col-lg-offset-1">
+
+
+    <div class="row">
+        <div class="col-lg-4 col-sm-6 text-center">
+            <label for="owner-name">Owner: </label>
+            <input id="owner-name" value="">
+            <button id="owner-search" class="btn btn-default">Search By Owner</button>
+        </div>
+
+        <div class="col-lg-4 col-sm-6 text-center">
+            <label for="kore-name">Kore: </label>
+            <input id="kore-name" value="Pasiphae">
+            <button id="name-search" class="btn btn-default">Search By Name</button>
+        </div>
+    </div>
+
+    <div class="row col-lg-12 text-center">
+        <div id="kore-pics"/>
+    </div>
+</div>
+
+<script> <!-- retrieve owner names to auto populate input -->
+    var possOwners;
+    $.get({
+        url: "https://sheets.googleapis.com/v4/spreadsheets/1PiG0ya_hj34uxPrOFxFyFo7IfWiqsfHQVpw5_9cXtdw/values/A1%3AA2?key=AIzaSyAfUvcOqn6jTU6pGNbqBLsGw05yIJlmZtg"
+        , data: {
+            "range": "Owners!B2:B136",
+            "majorDimension": "COLUMNS"
+        }
+    }).success(function (data) {
+
+        possOwners = data["values"][0];
+
+        $("#owner-name").autocomplete({
+            source: possOwners
+        });
+
+        console.log(possOwners);
+
+    });
+</script>
+
+<script> <!-- retrieve kore names to auto populate input -->
+    var possKore;
+    $.get({
+        url: "https://sheets.googleapis.com/v4/spreadsheets/1PiG0ya_hj34uxPrOFxFyFo7IfWiqsfHQVpw5_9cXtdw/values/A1%3AA2?key=AIzaSyAfUvcOqn6jTU6pGNbqBLsGw05yIJlmZtg"
+        , data: {
+            "range": "Kore!B2:B",
+            "majorDimension": "COLUMNS"
+        }
+    }).success(function (data) {
+
+        possKore = data["values"][0];
+
+        $("#kore-name").autocomplete({
+            source: possKore
+        });
+
+        console.log(possKore);
+
+    });
+</script>
+
+<script>
+    // A $( document ).ready() block.
+    function processKore(koreArray){
+        console.log(koreArray);
+
+        // Id	Name	Folder	Picture	Thumb	OwnerId	Owner	SireId	DamId	Trial color
+        $("#kore-pics").innerHTML = "";
+
+        var koreDiv = $("<div>").attr({
+            id : koreArray[1],
+            class : 'kore-details'
+        });
+
+        var koreThumb = $("<img>").attr({
+            src : koreArray[3]
+        });
+
+        koreDiv.html(koreThumb);
+
+        $("#kore-pics").html(koreDiv);
+
+    }
+
+    $(document).ready(function () {
+        console.log("ready!");
+
+        $("#name-search").click(function (event) {
+            console.log($("#kore-name").val());
+            var koreName = $("#kore-name").val();
+            if (koreName == undefined || koreName == '') {
+                console.log("Nuffin' there");
+                $("#kore-pics").text("Please enter an actual kore name to search on.");
+                return;
+            }
+
+            console.log("There is something! Woo!");
+
+
+            var koreRow = $.inArray( koreName, possKore);
+            if(koreRow < 0){
+                console.log("Couldn't find a kore named: " + koreName);
+                $("#kore-pics").text("We have no kore by that name in our bank.");
+                return;
+            }
+            koreRow = koreRow + 2;
+            console.log("Found it in place here: " + koreRow);
+
+
+            $.get({
+                url: "https://sheets.googleapis.com/v4/spreadsheets/1PiG0ya_hj34uxPrOFxFyFo7IfWiqsfHQVpw5_9cXtdw/values/A1%3AA2?key=AIzaSyAfUvcOqn6jTU6pGNbqBLsGw05yIJlmZtg"
+                , data: {
+                    "range": "Kore!A"+koreRow+":J"+koreRow,
+                    "majorDimension": "ROWS"
+                }
+            }).success(function (data) {
+
+                console.log(data["values"][0][4]);
+                processKore(data["values"][0]);
+
+            });
+
+        });
+
+
+    });
+</script>
+
 </body>
 </html>
