@@ -107,14 +107,25 @@
 
         var koreDiv = $("<div>").attr({
             id : koreArray[1],
-            class : 'kore-details'
+            class : 'kore-details row'
         });
 
         var koreThumb = $("<img>").attr({
             src : koreArray[3]
         });
 
-        koreDiv.html(koreThumb);
+
+        koreDiv.append(koreThumb);
+        koreDiv.append($("<p>").attr({
+
+        }).text(koreArray[1]))
+
+        if(koreArray[6] != undefined && koreArray[6] != '' ){
+            koreDiv.append($("<p>").attr({
+
+            }).text("Owner: " + koreArray[6]));
+
+        }
 
         $("#kore-pics").html(koreDiv);
 
