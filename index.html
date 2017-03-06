@@ -127,9 +127,9 @@
             koreDiv.append($("<p>").attr({}).text("Sire: " + allKoreInfo[koreObj.sireId].name));
         }
 
-        if (koreObj.color >= 0) {
-            koreDiv.append($("<p>").attr({}).text("Color: " + koreObj.color));
-        }
+
+        koreDiv.append($("<p>").attr({}).text("Color: " + koreObj.color));
+
 
         $("#kore-pics").append(koreDiv);
 
