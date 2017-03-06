@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Kore Search</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+
+    <!-- Custom CSS -->
+    <link href="css/round-about.css" rel="stylesheet">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="js/jquery-2.2.4.js"></script>
+    <!-- jQuery-UI stuff -->
+    <script src="js/jquery-ui.js"></script>
+    <link rel="stylesheet" href="css/jquery-ui.css">
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.min.js"></script>
+</head>
+
+<body>
+<div class="container-fluid col-lg-8 col-lg-offset-1">
+
+
+    <div class="row">
+        <div class="col-lg-4 col-sm-6 text-center">
+
+            <button id="test-trigger" class="btn btn-default" onclick="chomp()">Trigger</button>
+        </div>
+    </div>
+
+    <div class="row col-lg-12 text-center">
+        <div id="kore-pics"/>
+    </div>
+</div>
+
+<script> <!-- retrieve owner names to auto populate input -->
+var allOwners = {};
+var allKore = {};
+function chomp(){
+    $.get({
+        url: "https://sheets.googleapis.com/v4/spreadsheets/1PiG0ya_hj34uxPrOFxFyFo7IfWiqsfHQVpw5_9cXtdw/values/A1%3AA2?key=AIzaSyAfUvcOqn6jTU6pGNbqBLsGw05yIJlmZtg"
+        , data: {
+            "range": "Kore!A:J",
+            "majorDimension": "COLUMNS"
+        }
+    }).success(function (data) {
+        // 0    1       2       3       4       5       6       7       8       9
+        // Id	Name	Folder	Picture	Thumb	OwnerId	Owner	SireId	DamId	Trial color
+        console.log(data["values"][0]);
+
+
+        for(var i = 0; i < data["values"][0].length; i++){
+            var kore = {};
+
+            kore.id = data["values"][0][i];
+            kore.row = i + 1;
+            kore.name = data["values"][1][i];
+            kore.pic = data["values"][3][i];
+            kore.thumb = data["values"][4][i];
+
+            kore.sireId = (data["values"][7][i] == undefined || data["values"][7][i] == '') ? -1 : data["values"][7][i];
+            kore.damId = (data["values"][8][i] == undefined || data["values"][8][i] == '') ? -1 : data["values"][8][i];
+            kore.color = (data["values"][9][i] == undefined || data["values"][9][i] == '') ? -1 : data["values"][9][i];
+
+            kore.ownerId = (data["values"][5][i] == undefined || data["values"][5][i] == '') ? -1 : data["values"][5][i];
+            kore.owner = (data["values"][6][i] == undefined || data["values"][6][i] == '') ? -1 : data["values"][6][i];
+
+            if(kore.ownerId >= 0){
+                if(allOwners[kore.owner] == undefined){
+                    allOwners[kore.owner] = [];
+                }
+
+                allOwners[kore.owner].push(kore.id);
+            }
+
+            allKore[kore.id] = kore;
+            console.log(kore);
+
+        }
+
+        console.log(allKore);
+        console.log(allOwners);
+    });
+}
+
+</script>
+
+</body>
+</html>

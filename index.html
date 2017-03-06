@@ -131,20 +131,57 @@
 
     }
 
+    function checkField(inputField, errorMsg){
+        var inputVal = inputField.val();
+        if (inputVal == undefined || inputVal == '') {
+            console.log("Nuffin' there");
+            $("#kore-pics").text(errorMsg);
+            return;
+        }
+
+        return inputField.val();
+    }
+
+
+    var allOwners = [];
+    function allKore(){
+        $.get({
+            url: "https://sheets.googleapis.com/v4/spreadsheets/1PiG0ya_hj34uxPrOFxFyFo7IfWiqsfHQVpw5_9cXtdw/values/A1%3AA2?key=AIzaSyAfUvcOqn6jTU6pGNbqBLsGw05yIJlmZtg"
+            , data: {
+                "range": "Kore!A:J",
+                "majorDimension": "COLUMNS"
+            }
+        }).success(function (data) {
+
+            console.log(data["values"][0][4]);
+
+
+        });
+    }
+
+
+    function addKore(koreRow){
+        $.get({
+            url: "https://sheets.googleapis.com/v4/spreadsheets/1PiG0ya_hj34uxPrOFxFyFo7IfWiqsfHQVpw5_9cXtdw/values/A1%3AA2?key=AIzaSyAfUvcOqn6jTU6pGNbqBLsGw05yIJlmZtg"
+            , data: {
+                "range": "Kore!A"+koreRow+":J"+koreRow,
+                "majorDimension": "ROWS"
+            }
+        }).success(function (data) {
+
+            console.log(data["values"][0][4]);
+            processKore(data["values"][0]);
+
+        });
+    }
+
     $(document).ready(function () {
         console.log("ready!");
 
         $("#name-search").click(function (event) {
             console.log($("#kore-name").val());
-            var koreName = $("#kore-name").val();
-            if (koreName == undefined || koreName == '') {
-                console.log("Nuffin' there");
-                $("#kore-pics").text("Please enter an actual kore name to search on.");
-                return;
-            }
 
-            console.log("There is something! Woo!");
-
+            var koreName = checkField($("#kore-name"), "Please enter an actual kore name to search on.");
 
             var koreRow = $.inArray( koreName, possKore);
             if(koreRow < 0){
@@ -152,22 +189,30 @@
                 $("#kore-pics").text("We have no kore by that name in our bank.");
                 return;
             }
+
+
             koreRow = koreRow + 2;
             console.log("Found it in place here: " + koreRow);
+            addKore(koreRow);
+
+        });
+
+        $("#owner-search").click(function (event) {
+            console.log($("#owner-name").val());
+
+            var ownerName = checkField($("#owner-name"), "Please enter an actual kore name to search on.");
+
+            var ownerRow = $.inArray( ownerName, possOwners);
+            if(ownerRow < 0){
+                console.log("Couldn't find a kore named: " + ownerName);
+                $("#kore-pics").text("We have no kore by that name in our bank.");
+                return;
+            }
 
 
-            $.get({
-                url: "https://sheets.googleapis.com/v4/spreadsheets/1PiG0ya_hj34uxPrOFxFyFo7IfWiqsfHQVpw5_9cXtdw/values/A1%3AA2?key=AIzaSyAfUvcOqn6jTU6pGNbqBLsGw05yIJlmZtg"
-                , data: {
-                    "range": "Kore!A"+koreRow+":J"+koreRow,
-                    "majorDimension": "ROWS"
-                }
-            }).success(function (data) {
-
-                console.log(data["values"][0][4]);
-                processKore(data["values"][0]);
-
-            });
+            ownerRow = ownerRow + 2;
+            console.log("Found it in place here: " + ownerRow);
+            addKore(koreRow);
 
         });
 
