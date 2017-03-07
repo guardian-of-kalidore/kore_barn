@@ -50,8 +50,115 @@
         </div>
     </div>
 
-    <div class="row col-lg-12 text-center">
-        <div id="kore-pics"/>
+    <div class="row col-lg-10 col-lg-offset-1 text-center">
+        <div id="kore-pics" class="text-center"/>
+    </div>
+</div>
+
+
+<!-- details modal -->
+<div class="modal fade" id="detailsModal" tabindex="-1" role="dialog"
+     aria-labelledby="detailsModalLabel" aria-hidden="true">
+
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+            </div>
+            <div class="modal-body text-center">
+                <h3 id="details-kore-id">Kore Id Goes Here</h3>
+                <img id="details-img" class="img-responsive" src="placeholders">
+                <table class="table table-bordered">
+                    <tr>
+                        <th>Name:</th>
+                        <td id="details-name">Name Goes Here</td>
+                    </tr>
+                    <tr>
+                        <th>Owner:</th>
+                        <td id="details-owner">Owner Name Goes Here</td>
+                    </tr>
+                    <tr>
+                        <th>Dam:</th>
+                        <td id="details-dam">Dam Name Goes Here</td>
+                    </tr>
+                    <tr>
+                        <th>Sire:</th>
+                        <td id="details-sire">Sire Name Goes Here</td>
+                    </tr>
+                    <tr>
+                        <th>Color:</th>
+                        <td id="details-color">Color Goes Here</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- edit modal -->
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog"
+     aria-labelledby="editModalLabel" aria-hidden="true">
+
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="editModalLabel">Edit Kore</h4>
+            </div>
+            <div class="modal-body text-center">
+                <h3 id="edit-kore-id-header">Kore Id Goes Here</h3>
+                <img id="edit-img" class="img-responsive" src="placeholders">
+                <form class="form-horizontal" role="form">
+                    <div class="form-group">
+                        <label for="edit-name" class="col-md-4 control-label">Name:</label>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" id="edit-name" placeholder="Name"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-owner" class="col-md-4 control-label">Owner Name:</label>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" id="edit-owner" placeholder="Owner Name"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-sire" class="col-md-4 control-label">Sire:</label>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" id="edit-sire" placeholder="Sire Name"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-dam" class="col-md-4 control-label">Dam:</label>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" id="edit-dam" placeholder="Dam Name"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-color" class="col-md-4 control-label">Color:</label>
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" id="edit-color" placeholder="Email"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-offset-4 col-md-8">
+                            <button type="submit" id="edit-button" class="btn btn-default" data-dismiss="modal">Edit Kore</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                            <input type="hidden" id="edit-kore-id"/>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -104,33 +211,45 @@
 
         var koreDiv = $("<div>").attr({
             id: koreObj.id,
-            class: 'kore-details row'
+            class: 'kore-details col-lg-3',
+
         });
 
         var koreThumb = $("<img>").attr({
-            src: koreObj.pic
+            src: koreObj.pic,
+            class:"img-responsive",
+            'data-kore-id': koreObj.id,
+            'data-toggle': 'modal',
+            'data-target': '#detailsModal'
         });
 
-
         koreDiv.append(koreThumb);
-        koreDiv.append($("<p>").attr({}).text(koreObj.name))
 
-        if (koreObj.ownerId >= 0) {
-            koreDiv.append($("<p>").attr({}).text("Owner: " + koreObj.owner));
-        }
+        var editButton = $("<button>").attr({
+            'data-kore-id': koreObj.id,
+            'data-toggle': 'modal',
+            'data-target': '#editModal'
+        }).text("Edit");
 
-        if (koreObj.damId >= 0) {
-            koreDiv.append($("<p>").attr({}).text("Dam: " + allKoreInfo[koreObj.damId].name));
-        }
-
-        if (koreObj.sireId >= 0) {
-            koreDiv.append($("<p>").attr({}).text("Sire: " + allKoreInfo[koreObj.sireId].name));
-        }
-
-
-        koreDiv.append($("<p>").attr({}).text("Color: " + koreObj.color));
-
-
+        koreDiv.append(editButton);
+//        koreDiv.append($("<p>").attr({}).text(koreObj.name));
+//
+//        if (koreObj.ownerId >= 0) {
+//            koreDiv.append($("<p>").attr({}).text("Owner: " + koreObj.owner));
+//        }
+//
+//        if (koreObj.damId >= 0) {
+//            koreDiv.append($("<p>").attr({}).text("Dam: " + allKoreInfo[koreObj.damId].name));
+//        }
+//
+//        if (koreObj.sireId >= 0) {
+//            koreDiv.append($("<p>").attr({}).text("Sire: " + allKoreInfo[koreObj.sireId].name));
+//        }
+//
+//
+//        koreDiv.append($("<p>").attr({}).text("Color: " + koreObj.color));
+//
+//
         $("#kore-pics").append(koreDiv);
 
     }
@@ -138,6 +257,116 @@
 
     $(document).ready(function () {
         console.log("ready!");
+
+        // This code is going to run in response to the show.bs.modal event
+        // when it triggers against the EDIT modal.
+        $('#editModal').on('show.bs.modal', function (event) {
+
+            var element = $(event.relatedTarget);
+            var koreId = element.data('kore-id');
+            var koreObj = allKoreInfo[koreId];
+
+            var modal = $(this);
+
+            if(koreObj.damId > 0){
+                var damObj = allKoreInfo[koreObj.damId];
+                modal.find('#edit-dam').val(damObj.name);
+            } else{
+                modal.find('#edit-dam').val('n/a');
+            }
+
+            if(koreObj.sireId > 0){
+                var sireObj = allKoreInfo[koreObj.sireId];
+                modal.find('#edit-sire').val(sireObj.name);
+            } else{
+                modal.find('#edit-sire').val('n/a');
+            }
+
+            if(koreObj.owner > 0){
+                modal.find('#edit-owner').val(koreObj.owner);
+            } else{
+                modal.find('#edit-owner').val('n/a');
+            }
+
+            modal.find('#edit-kore-id-header').text(koreObj.id);
+            modal.find('#edit-img').attr({
+                src : koreObj.pic
+            });
+            modal.find('#edit-name').val(koreObj.name);
+
+            modal.find('#edit-color').val(koreObj.color);
+            modal.find('#edit-kore-id').val(koreObj.id);
+
+
+        });
+
+        $('#detailsModal').on('show.bs.modal', function (event) {
+
+            var element = $(event.relatedTarget);
+            var koreId = element.data('kore-id');
+            var koreObj = allKoreInfo[koreId];
+
+            var modal = $(this);
+
+            if(koreObj.damId > 0){
+                var damObj = allKoreInfo[koreObj.damId];
+                modal.find('#details-dam').text(damObj.name);
+            } else{
+                modal.find('#details-dam').text('n/a');
+            }
+
+            if(koreObj.sireId > 0){
+                var sireObj = allKoreInfo[koreObj.sireId];
+                modal.find('#details-sire').text(sireObj.name);
+            } else{
+                modal.find('#details-sire').text('n/a');
+            }
+
+            if(koreObj.owner > 0){
+                modal.find('#details-owner').text(koreObj.owner);
+            } else{
+                modal.find('#details-owner').text('n/a');
+            }
+
+            modal.find('#details-img').attr({
+                src : koreObj.pic
+            });
+            modal.find('#details-name').text(koreObj.name);
+
+            modal.find('#details-color').text(koreObj.color);
+            modal.find('#details-kore-id').text(koreObj.id);
+
+
+        });
+
+        $('#edit-button').click(function (event) {
+
+            // This stops the button from actually doing a "submit" action
+            event.preventDefault();
+
+            // The below call maps to ine 47
+//            $.ajax({
+//                type: 'PUT',
+//                url: 'contact/' + $('#edit-contactId').val(),
+//                data: JSON.stringify({
+//                    contactId: $('#edit-contactId').val(),
+//                    firstName: $('#edit-firstName').val(),
+//                    lastName: $('#edit-lastName').val(),
+//                    company: $('#edit-company').val(),
+//                    phone: $('#edit-phone').val(),
+//                    email: $('#edit-email').val()
+//                }),
+//                headers: {
+//                    'Accept': 'application/json',
+//                    'Content-Type': 'application/json'
+//                },
+//                'dataType': 'json'
+//            }).success(function (data, status) {
+//                loadContacts();
+//            });
+
+
+        });
 
         setUp();
         $("#name-search").click(function (event) {
