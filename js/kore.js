@@ -20,7 +20,7 @@ function loadAllKore(){
     		console.log(kore);
     		
     		var koreDiv = $("<div>");
-    		koreDiv.attr("class", "card");
+    		koreDiv.attr("class", "card col-md-3 col-xs-3 col-lg-3");
     		
     		koreDiv.append($("<img>").attr({
     		"src" : kore.mainPic.url,
