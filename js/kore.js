@@ -29,7 +29,7 @@ function loadAllKore(){
     		}));
     		
     		koreDiv.append($("<div>").attr("class", "container")
-    								.append($("<h4>").innerHtml(kore.name)));
+    								.append("<h4>"+kore.name+"</h4>"));
     		
     		picsDiv.append(koreDiv);
     		
