@@ -13,7 +13,6 @@
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
 
-
     <!-- Custom CSS -->
     <link href="css/round-about.css" rel="stylesheet">
 
@@ -27,6 +26,7 @@
     <script src="js/jquery-2.2.4.js"></script>
     <!-- jQuery-UI stuff -->
     <script src="js/jquery-ui.js"></script>
+    <script src="js/kore.js"></script>
     <link rel="stylesheet" href="css/jquery-ui.css">
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="js/bootstrap.min.js"></script>
@@ -47,58 +47,5 @@
         <div id="kore-pics"/>
     </div>
 </div>
-
-<script> <!-- retrieve owner names to auto populate input -->
-var allOwners = {};
-var allKore = {};
-function chomp(){
-    $.get({
-        url: "https://sheets.googleapis.com/v4/spreadsheets/1PiG0ya_hj34uxPrOFxFyFo7IfWiqsfHQVpw5_9cXtdw/values/A1%3AA2?key=AIzaSyAfUvcOqn6jTU6pGNbqBLsGw05yIJlmZtg"
-        , data: {
-            "range": "Kore!A:J",
-            "majorDimension": "COLUMNS"
-        }
-    }).success(function (data) {
-        // 0    1       2       3       4       5       6       7       8       9
-        // Id	Name	Folder	Picture	Thumb	OwnerId	Owner	SireId	DamId	Trial color
-        console.log(data["values"][0]);
-
-
-        for(var i = 0; i < data["values"][0].length; i++){
-            var kore = {};
-
-            kore.id = data["values"][0][i];
-            kore.row = i + 1;
-            kore.name = data["values"][1][i];
-            kore.pic = data["values"][3][i];
-            kore.thumb = data["values"][4][i];
-
-            kore.sireId = (data["values"][7][i] == undefined || data["values"][7][i] == '') ? -1 : data["values"][7][i];
-            kore.damId = (data["values"][8][i] == undefined || data["values"][8][i] == '') ? -1 : data["values"][8][i];
-            kore.color = (data["values"][9][i] == undefined || data["values"][9][i] == '') ? -1 : data["values"][9][i];
-
-            kore.ownerId = (data["values"][5][i] == undefined || data["values"][5][i] == '') ? -1 : data["values"][5][i];
-            kore.owner = (data["values"][6][i] == undefined || data["values"][6][i] == '') ? -1 : data["values"][6][i];
-
-            if(kore.ownerId >= 0){
-                if(allOwners[kore.owner] == undefined){
-                    allOwners[kore.owner] = [];
-                }
-
-                allOwners[kore.owner].push(kore.id);
-            }
-
-            allKore[kore.id] = kore;
-            console.log(kore);
-
-        }
-
-        console.log(allKore);
-        console.log(allOwners);
-    });
-}
-
-</script>
-
 </body>
 </html>
