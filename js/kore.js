@@ -15,7 +15,7 @@ function loadAllKore(){
     	allKore = koreList;
     	var picsDiv = $("#kore-pics");
     	
-    	for(int i = 0; i < allKore.length; i++){
+    	for(var i = 0; i < allKore.length; i++){
     		var kore = allKore[i];
     		console.log(kore);
     		
