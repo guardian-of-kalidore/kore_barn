@@ -26,7 +26,7 @@ function loadAllKore(){
     		"src" : "kore.mainPic",
     		"alt" : "Avatar",
     		"style" : "width:100%"
-    		});
+    		}));
     		
     		koreDiv.append($("<div>").attr("class", "container")
     								.append($("<h4>").innerHtml(kore.name)));
