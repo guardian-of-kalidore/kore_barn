@@ -23,7 +23,7 @@ function loadAllKore(){
     		koreDiv.attr("class", "card");
     		
     		koreDiv.append($("<img>").attr({
-    		"src" : "kore.mainPic",
+    		"src" : kore.mainPic.url,
     		"alt" : "Avatar",
     		"style" : "width:100%"
     		}));
