@@ -3,23 +3,34 @@ var allOwners = {};
 var allKore = {};
 function loadAllKore(){
     $.get({
-        url: "https://kalidore-microservice.herokuapp.com/kore/all",
+        url: "https://kalidore-microservice.herokuapp.com/kore/random",
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
             'dataType': 'json'
         
-    }).success(function (koreList) {
-    	console.log(koreList);
-    	allKore = koreList;
+    }).success(function (kore) {
+<!--     	console.log(koreList); -->
+<!--     	allKore = koreList; -->
     	var picsDiv = $("#kore-pics");
     	
-    	for(var i = 0; i < allKore.length; i++){
-    		var kore = allKore[i];
+<!--     	for(var i = 0; i < allKore.length; i++){ -->
+<!--     		var kore = allKore[i]; -->
     		console.log(kore);
     		
-    		var koreDiv = $("<div>");
+    		var koreDiv = makeKoreCard(kore);
+    		
+    		picsDiv.append(koreDiv);
+    		
+<!--     	} -->
+    	
+    	
+	});
+}
+
+function makeKoreCard(kore){
+var koreDiv = $("<div>");
     		koreDiv.attr("class", "card col-md-3 col-xs-3 col-lg-3");
     		
     		koreDiv.append($("<img>").attr({
@@ -29,11 +40,5 @@ function loadAllKore(){
     		}));
     		
     		koreDiv.append($("<div>").append("<h4>"+kore.name+"</h4>"));
-    		
-    		picsDiv.append(koreDiv);
-    		
-    	}
-    	
-    	
-	});
+    		return koreDiv;
 }
