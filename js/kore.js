@@ -28,8 +28,7 @@ function loadAllKore(){
     		"style" : "width:100%"
     		}));
     		
-    		koreDiv.append($("<div>").attr("class", "container")
-    								.append("<h4>"+kore.name+"</h4>"));
+    		koreDiv.append($("<div>").append("<h4>"+kore.name+"</h4>"));
     		
     		picsDiv.append(koreDiv);
     		
