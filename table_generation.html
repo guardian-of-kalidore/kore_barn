@@ -110,14 +110,6 @@
     }
 
     function populateKoreTable() {
-        var koreRows = $("#kore-rows");
-        var sires = $("#edit-modal-sire");
-        var dams = $("#edit-modal-dam");
-
-        koreRows.empty();
-        sires.empty();
-        dams.empty();
-
         $.get({
             url: "https://kalidore-microservice.herokuapp.com/kore/all",
             headers: {
@@ -127,17 +119,51 @@
             'dataType': 'json'
 
         }).success(function (koreList) {
-//            console.log(koreList);
-            allKore = koreList;
-            var kore;
-            for (var i = 0; i < koreList.length; i++) {
-                kore = koreList[i];
-                koreRows.append(koreToRow(kore));
-
-                sires.append('<option value="'+kore.id+'">'+kore.name+'</option>');
-                dams.append('<option value="'+kore.id+'">'+kore.name+'</option>');
-            }
+            populateSiresAndDams(koreList);
+            fillKoreTable(koreList);
         });
+    }
+
+    function populateKoreTableWithOwner(ownerid) {
+        $.get({
+            url: "https://kalidore-microservice.herokuapp.com/kore/owner/id/"+ownerid,
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            'dataType': 'json'
+
+        }).success(function (koreList) {
+            fillKoreTable(koreList);
+        });
+    }
+
+    function populateSiresAndDams(koreList){
+
+        var kore;
+
+        var sires = $("#edit-modal-sire");
+        var dams = $("#edit-modal-dam");
+
+        for (var i = 0; i < koreList.length; i++) {
+            kore = koreList[i];
+
+            sires.append('<option value="'+kore.id+'">'+kore.name+'</option>');
+            dams.append('<option value="'+kore.id+'">'+kore.name+'</option>');
+        }
+    }
+
+    function fillKoreTable(koreList){
+        var koreRows = $("#kore-rows");
+        koreRows.empty();
+
+        allKore = koreList;
+        var kore;
+        for (var i = 0; i < koreList.length; i++) {
+            kore = koreList[i];
+            koreRows.append(koreToRow(kore));
+
+        }
     }
 
     function koreToRow(kore) {
@@ -154,7 +180,7 @@
         nameField.append('<a onclick="showDetails(' + kore.id + ')">' + kore.name + '</a>');
         var ownerField = $("<td>").attr("width", "20%");
         if (kore.owner != null && kore.owner.name != null) {
-            ownerField.append(kore.owner.name);
+            ownerField.append('<a onclick="populateKoreTableWithOwner(' + kore.owner.id + ')">'+kore.owner.name+'</a>');
         }
 
         var deleteBtn = $("<td>").attr("width", "10%");
@@ -183,6 +209,20 @@
     function editKore(id) {
         console.log("Gotta edit this kore " + id);
         fillModalDetails(id, "#edit-modal");
+    }
+
+    function showOwnerKore(id) {
+        $.get({
+            url: "https://kalidore-microservice.herokuapp.com/kore/id/" + id,
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            'dataType': 'json'
+
+        }).success(function (koreList) {
+
+        });
     }
 
     function submitEditForm() {
@@ -285,10 +325,10 @@
     <!--<li class="col-lg-2 col-md-2">Section 5</li>-->
     <!--</ul>-->
     <!--</nav>-->
-    <div>
+
         <table class="table table-fixed col-lg-12 col-md-12">
-            <thead class="green">
-            <tr class="orange">
+            <thead>
+            <tr>
                 <th width="15%">Pic</th>
                 <th width="20%">Name</th>
                 <th width="20%">Owner</th>
@@ -298,7 +338,7 @@
             </thead>
             <tbody id="kore-rows"></tbody>
         </table>
-    </div>
+
 </div>
 
 
