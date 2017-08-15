@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Kore Proto-Database</title>
+
+    <!-- Bootstrap Core CSS -->
+
+    <!--<link href="css/stickyheaders.css" rel="stylesheet">-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <!--<link href="css/round-about.css" rel="stylesheet">-->
+    <link href="css/table-fixed.css" rel="stylesheet">
+    <!--<style>-->
+        <!--.table-fixed thead {-->
+            <!--/*width: 97%;*/-->
+            <!--/*text-align: center;*/-->
+        <!--}-->
+
+        <!--.table-fixed tbody {-->
+            <!--height: 500px;-->
+            <!--overflow-x: auto;-->
+            <!--overflow-y: auto;-->
+            <!--/*width: 99%;*/-->
+        <!--}-->
+
+        <!--.table-fixed thead, .table-fixed tbody, .table-fixed tr, .table-fixed td, .table-fixed th {-->
+            <!--display: block;-->
+            <!--text-align: center;-->
+        <!--}-->
+
+        <!--.table-fixed tbody td, .table-fixed thead > tr > th {-->
+            <!--display: inline-block;-->
+            <!--border-bottom-width: 0;-->
+        <!--}-->
+    <!--</style>-->
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <!--<script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="-->
+            <!--crossorigin="anonymous"></script>-->
+    <script src="js/jquery-2.2.4.js"></script>
+    <!-- jQuery-UI stuff -->
+    <!--<script src="js/jquery-ui.js"></script>-->
+    <!--<link rel="stylesheet" href="css/jquery-ui.css">-->
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+
+    <!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>-->
+    <!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"></script>-->
+    <script src="js/bootstrap.min.js"></script>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+</head>
+
+<script>
+    var allKore = [];
+    var allOwners = [];
+
+    $(document).ready(function () {
+        populateKoreTable();
+        populateFormOwners();
+
+
+        $("#edit-modal-owner-chk").click( function(){
+            toggleEditOwnerType();
+        });
+
+    });
+
+    function toggleEditOwnerType(){
+        if( $("#edit-modal-owner-chk").is(':checked') ){
+            $("#edit-modal-owner-new").show();
+            $("#edit-modal-owner-dropdown").hide();
+            $("#edit-modal-owner-dropdown-label").hide();
+
+        }else{
+            $("#edit-modal-owner-new").hide();
+            $("#edit-modal-owner-dropdown").show();
+            $("#edit-modal-owner-dropdown-label").show();
+        }
+    }
+
+    function populateFormOwners() {
+        var dropdown = $("#edit-modal-owner-dropdown");
+        dropdown.empty();
+
+        $.get({
+            url: "https://kalidore-microservice.herokuapp.com/owner/all",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            'dataType': 'json'
+
+        }).success(function (ownersList) {
+            allOwners = ownersList;
+            var owner;
+
+            for (var i = 0; i < ownersList.length; i++) {
+                owner = ownersList[i];
+                dropdown.append('<option value="'+owner.id+'">'+owner.name+'</option>');
+            }
+        });
+    }
+
+    function populateKoreTable() {
+        var koreRows = $("#kore-rows");
+        var sires = $("#edit-modal-sire");
+        var dams = $("#edit-modal-dam");
+
+        koreRows.empty();
+        sires.empty();
+        dams.empty();
+
+        $.get({
+            url: "https://kalidore-microservice.herokuapp.com/kore/all",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            'dataType': 'json'
+
+        }).success(function (koreList) {
+//            console.log(koreList);
+            allKore = koreList;
+            var kore;
+            for (var i = 0; i < koreList.length; i++) {
+                kore = koreList[i];
+                koreRows.append(koreToRow(kore));
+
+                sires.append('<option value="'+kore.id+'">'+kore.name+'</option>');
+                dams.append('<option value="'+kore.id+'">'+kore.name+'</option>');
+            }
+        });
+    }
+
+    function koreToRow(kore) {
+        var koreRow = $("<tr>");
+
+        var picField = $("<td>").attr("width", "15%");
+        if (kore.mainPic != null) {
+            picField.append('<img height="50px" src="' + kore.mainPic + '">');
+        } else {
+            picField.append('n/a');
+        }
+
+        var nameField = $("<td>").attr("width", "20%");
+        nameField.append('<a onclick="showDetails(' + kore.id + ')">' + kore.name + '</a>');
+        var ownerField = $("<td>").attr("width", "20%");
+        if (kore.owner != null && kore.owner.name != null) {
+            ownerField.append(kore.owner.name);
+        }
+
+        var deleteBtn = $("<td>").attr("width", "10%");
+        deleteBtn.append('<a onclick="removeKore(' + kore.id + ')"><span class="glyphicon glyphicon-remove" style="color:red;"></span></a>');
+        var editBtn = $("<td>").attr("width", "10%");
+        editBtn.append('<a onclick="editKore(' + kore.id + ')"><span class="glyphicon glyphicon-pencil" style="color:darkblue;"></span></a>');
+
+        koreRow.append(picField);
+        koreRow.append(nameField);
+        koreRow.append(ownerField);
+        koreRow.append(deleteBtn);
+        koreRow.append(editBtn);
+
+        return koreRow;
+    }
+
+    function removeKore(id) {
+        alert("Yeah, sorry - remove isn't working yet.");
+    }
+
+    function showDetails(id) {
+        console.log("Gotta show info about this kore " + id);
+        fillModalDetails(id, "#kore-modal");
+    }
+
+    function editKore(id) {
+        console.log("Gotta edit this kore " + id);
+        fillModalDetails(id, "#edit-modal");
+    }
+
+    function submitEditForm() {
+        console.log("Got an edit request. Working...");
+
+        $.post({
+            url: "https://kalidore-microservice.herokuapp.com/kore/update/id/"+$("#edit-modal-id").val(),
+            headers: {
+                'Accept' : 'application/json', //Whatcha want back
+                'Content-Type' : 'application/json' // Whatcha sending
+            },
+            'dataType' : 'json', // Whatcha sending, data type
+            data : JSON.stringify({
+                "koreName" : $("#edit-modal-name").val(),
+                "ownerId" : $("#edit-modal-owner-dropdown").val(),
+//                "newOwner" : $("#edit-modal-owner-chk").is(':checked') ? $("#edit-modal-owner-new").val() : '',
+                "picUrl" : $("#edit-modal-pic").val(),
+                "sireId" : $("#edit-modal-sire").val(),
+                "damId" : $("#edit-modal-dam").val(),
+                "color" : $("#edit-modal-color").val()
+            })
+
+        }).success(function(){
+            console("Edit maybe worked?!");
+
+            populateKoreTable();
+            populateFormOwners();
+
+        });
+    }
+
+    function fillModalDetails(id, modal) {
+
+        $.get({
+            url: "https://kalidore-microservice.herokuapp.com/kore/id/" + id,
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            'dataType': 'json'
+
+        }).success(function (koreDetails) {
+
+            console.log("Found kore#" + id);
+            console.log(koreDetails);
+
+            var kore = koreDetails.kore;
+
+            $("#details-modal-name").html(kore.name);
+            $("#edit-modal-name").val(kore.name);
+            $("#edit-modal-id").val(kore.id);
+
+            $("#details-modal-edit-btn").html('<a onclick="editKore(' + kore.id + ')" data-dismiss="modal"><span class="glyphicon glyphicon-pencil" style="color:darkblue;"></span></a>');
+
+            $("#details-modal-img").html('<img src="' + kore.mainPic + '">');
+            $("#edit-modal-img").html('<img src="' + kore.mainPic + '">');
+            $("#edit-modal-pic").val(kore.mainPic);
+
+            $("#edit-modal-owner-new").val('');
+            $("#edit-modal-owner-chk").attr('checked', false);
+            toggleEditOwnerType();
+
+            if (kore.owner != null) {
+                $("#details-modal-owner").html(kore.owner.name);
+                $("#edit-modal-owner-dropdown").val(kore.owner.id);
+            } else {
+                $("#details-modal-owner").html("n/a");
+                $("#edit-modal-owner-dropdown").val('');
+            }
+
+            if (koreDetails.heritage.dam != null) {
+                $("#details-modal-dam").html(koreDetails.heritage.dam);
+                $("#edit-modal-dam").val(koreDetails.heritage.damId);
+            } else {
+                $("#details-modal-dam").html("n/a");
+                $("#edit-modal-dam").val('');
+            }
+
+            if (koreDetails.heritage.sire != null) {
+                $("#details-modal-sire").html(koreDetails.heritage.sire);
+                $("#edit-modal-sire").val(koreDetails.heritage.sireId);
+            } else {
+                $("#details-modal-sire").html("n/a");
+                $("#edit-modal-dam").val('');
+            }
+
+            $(modal).modal('show');
+        });
+    }
+</script>
+
+<body>
+<div class="container">
+    <!--<nav class="col-lg-8 col-md-8 navbar" style="position:fixed; height:50px;">-->
+    <!--<ul class="nav nav-pills">-->
+    <!--<li class="col-lg-2 col-md-2">Section 1</li>-->
+    <!--<li class="col-lg-2 col-md-2">Section 2</li>-->
+    <!--<li class="col-lg-2 col-md-2">Section 3</li>-->
+    <!--<li class="col-lg-2 col-md-2">Section 4</li>-->
+    <!--<li class="col-lg-2 col-md-2">Section 5</li>-->
+    <!--</ul>-->
+    <!--</nav>-->
+    <div>
+        <table class="table table-fixed col-lg-12 col-md-12">
+            <thead class="green">
+            <tr class="orange">
+                <th width="15%">Pic</th>
+                <th width="20%">Name</th>
+                <th width="20%">Owner</th>
+                <th width="10%">Delete</th>
+                <th width="10%">Edit</th>
+            </tr>
+            </thead>
+            <tbody id="kore-rows"></tbody>
+        </table>
+    </div>
+</div>
+
+
+<!-- Details Modal -->
+<div id="kore-modal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <h1 id="details-modal-name" class="text-center">Kore Name</h1>
+                <div id="details-modal-img" class="text-center"></div>
+                <table class="table">
+                    <tr>
+                        <td>Owner: <span id="details-modal-owner"></span></td>
+                    </tr>
+                    <tr>
+                        <td>Dam: <span id="details-modal-dam"></span></td>
+                    </tr>
+                    <tr>
+                        <td>Sire: <span id="details-modal-sire"></span></td>
+                    </tr>
+                </table>
+
+            </div>
+            <div class="modal-footer">
+                <button id="details-modal-edit-btn"></button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- Edit Modal -->
+<div id="edit-modal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <input type="hidden" id="edit-modal-id">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="edit-modal-img" class="text-center"></div>
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="edit-modal-name">Name:</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="edit-modal-name" placeholder="Name">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="edit-modal-color">Color:</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="edit-modal-color" placeholder="Color">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="edit-modal-pic">Pic Url:</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="edit-modal-pic" placeholder="Picture Url">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="edit-modal-owner-new">Owner:</label>
+                        <div class="col-sm-10">
+                            <div class="checkbox">
+                                <label><input disabled type="checkbox" id="edit-modal-owner-chk">New Owner?</label>
+                            </div>
+                            <input hidden type="text" class="form-control" id="edit-modal-owner-new" placeholder="New Owner Name">
+                            <label for="edit-modal-owner-dropdown" id="edit-modal-owner-dropdown-label">Select Owner:</label>
+                            <select class="form-control" id="edit-modal-owner-dropdown"></select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="edit-modal-dam">Dam:</label>
+                        <div class="col-sm-10">
+                            <!--<input type="text" class="form-control" id="edit-modal-dam" placeholder="Dam">-->
+                            <label for="edit-modal-dam">Select Dam:</label>
+                            <select class="form-control" id="edit-modal-dam"></select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="edit-modal-sire">Sire:</label>
+                        <div class="col-sm-10">
+                            <!--<input type="text" class="form-control" id="edit-modal-sire" placeholder="Sire">-->
+                            <label for="edit-modal-sire">Select Sire:</label>
+                            <select class="form-control" id="edit-modal-sire"></select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button onclick="submitEditForm()" class="btn btn-default" data-dismiss="modal">Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>
+
+<script>
+
+
+</script>

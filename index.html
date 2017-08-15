@@ -35,10 +35,23 @@
 <body>
 <div class="container-fluid col-lg-8 col-lg-offset-1">
     <div class="row col-lg-12 text-center">
-        <div id="kore-pics"/>
-    </div>
-</div>
+        <div id="kore-pics">
+            <div>
+
+                <form action="https://kalidore-microservice.herokuapp.com/kore/new" method="POST">
+                    Name:<input type="text" name="koreName"/><br/>
+                    New Owner:<input type="text" name="ownerName"/><br/>
+                    Pic:<input type="text" name="picUrl"/><br/>
+                    Owner:<select id="owners" name="ownerId"></select><br/>
+                    <button type="submit">Submit</button>
+                    <br/>
+                </form>
+
+                <div id="owner-pics"></div>
+            </div>
+        </div>
 </body>
 </html>
 
-<script> loadAllKore(); </script>
+<script> loadAllKore();
+setupOwners();</script>
