@@ -8,50 +8,50 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Kore Search</title>
+    <title>Kore Proto-Database</title>
 
-    <!-- Bootstrap Core CSS -->
+    <link href="css/table-fixed.css" rel="stylesheet">
+    <script src="js/jquery-2.2.4.js"></script>
+    <script src="js/bootstrap.min.js"></script>
     <link href="css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Custom CSS -->
-    <link href="css/round-about.css" rel="stylesheet">
+    <script src="js/koreCard.js"></script>
 
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="js/jquery-2.2.4.js"></script>
-    <!-- jQuery-UI stuff -->
-    <script src="js/jquery-ui.js"></script>
-    <script src="js/kore.js"></script>
-    <link rel="stylesheet" href="css/jquery-ui.css">
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="js/bootstrap.min.js"></script>
 </head>
 
+<script>
+
+    $(document).ready(function () {
+        loadRandomKore();
+
+    });
+
+</script>
+
 <body>
-<div class="container-fluid col-lg-8 col-lg-offset-1">
-    <div class="row col-lg-12 text-center">
-        <div id="kore-pics">
-            <div>
-
-                <form action="https://kalidore-microservice.herokuapp.com/kore/new" method="POST">
-                    Name:<input type="text" name="koreName"/><br/>
-                    New Owner:<input type="text" name="ownerName"/><br/>
-                    Pic:<input type="text" name="picUrl"/><br/>
-                    Owner:<select id="owners" name="ownerId"></select><br/>
-                    <button type="submit">Submit</button>
-                    <br/>
-                </form>
-
-                <div id="owner-pics"></div>
-            </div>
+<div class="container-fluid">
+    <!-- navbar -->
+    <div class="col-xs-3">
+        <ul class="nav nav-pills nav-stacked">
+            <li class="active"><a href="index.html">Home</a></li>
+            <li ><a href="all.html">All</a></li>
+            <li ><a href="owners.html">Owners</a></li>
+            <li ><a href="add_kore.html">Add</a></li>
+        </ul>
+    </div> <!-- end navbar -->
+    <div class="col-xs-9">
+        <div class="row col-lg-12 text-center">
+            <div id="kore-pics"/>
         </div>
+    </div>
+</div>
+
+
+
 </body>
 </html>
 
-<script> loadAllKore();
-setupOwners();</script>
+<script>
+
+
+</script>

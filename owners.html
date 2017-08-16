@@ -18,14 +18,17 @@
     <script src="js/koreTable.js"></script>
     <script src="js/owners.js"></script>
     <script src="js/modalWork.js"></script>
+    <script src="js/ownerMenu.js"></script>
 
 </head>
 
 <script>
 
     $(document).ready(function () {
-        populateKoreTable();
+
         populateFormOwners();
+        populateNoOwnerKore();
+        loadOwnerMenu();
 
 
         $("#edit-modal-owner-chk").click(function () {
@@ -38,14 +41,65 @@
 
 <body>
 <div class="container">
-    <div class="col-md-4">
-        <nav class="navbar">
-            <ul class="nav nav-pills">
-                <li class="col-lg-2 col-md-2">Section 1</li>
+    <!-- navbar -->
+    <div class="col-xs-3">
+        <ul class="nav nav-pills nav-stacked">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="all.html">All</a></li>
+            <li class="active"><a href="#">Owners</a></li>
+            <ul class="nav nav-pills nav-stacked">
+                <li><a id="no-owner" onclick="populateNoOwnerKore()"> > None</a></li>
+                <li>
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#"> > A-C
+                        <span class="caret"></span></a>
+                    <ul id="a-c-owner" class="dropdown-menu"></ul>
+                </li>
+                <li>
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#"> > D
+                        <span class="caret"></span></a>
+                    <ul id="d-owner" class="dropdown-menu"></ul>
+                </li>
+                <li>
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#"> > E-G
+                        <span class="caret"></span></a>
+                    <ul id="e-g-owner" class="dropdown-menu"></ul>
+                </li>
+                <li>
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#"> > H-K
+                        <span class="caret"></span></a>
+                    <ul id="h-k-owner" class="dropdown-menu"></ul>
+                </li>
+                <li>
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#"> > L-M
+                        <span class="caret"></span></a>
+                    <ul id="l-m-owner" class="dropdown-menu"></ul>
+                </li>
+                <li>
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#"> > N-R
+                        <span class="caret"></span></a>
+                    <ul id="n-r-owner" class="dropdown-menu"></ul>
+                </li>
+                <li>
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#"> > S
+                        <span class="caret"></span></a>
+                    <ul id="s-owner" class="dropdown-menu"></ul>
+                </li>
+                <li>
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#"> > T
+                        <span class="caret"></span></a>
+                    <ul id="t-owner" class="dropdown-menu"></ul>
+                </li>
+                <li>
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#"> > U-Z
+                        <span class="caret"></span></a>
+                    <ul id="u-z-owner" class="dropdown-menu"></ul>
+                </li>
             </ul>
-        </nav>
-    </div>
-    <div >
+            </li>
+            <li><a href="add_kore.html">Add</a></li>
+        </ul>
+    </div> <!-- end navbar -->
+    <div class="col-xs-9">
         <table class="table table-fixed col-lg-12 col-md-12">
             <thead>
             <tr>
@@ -88,7 +142,6 @@
 
             </div>
             <div class="modal-footer">
-                <button id="details-modal-edit-btn"></button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
             </div>
         </div>

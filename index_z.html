@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Kore Search</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="css/round-about.css" rel="stylesheet">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="js/jquery-2.2.4.js"></script>
+    <!-- jQuery-UI stuff -->
+    <script src="js/jquery-ui.js"></script>
+    <script src="js/kore.js"></script>
+    <link rel="stylesheet" href="css/jquery-ui.css">
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.min.js"></script>
+</head>
+
+<body>
+<div class="container-fluid col-lg-8 col-lg-offset-1">
+    <div class="row col-lg-12 text-center">
+        <div id="kore-pics">
+            <div>
+
+                <form action="https://kalidore-microservice.herokuapp.com/kore/new" method="POST">
+                    Name:<input type="text" name="koreName"/><br/>
+                    New Owner:<input type="text" name="ownerName"/><br/>
+                    Pic:<input type="text" name="picUrl"/><br/>
+                    Owner:<select id="owners" name="ownerId"></select><br/>
+                    <button type="submit">Submit</button>
+                    <br/>
+                </form>
+
+                <div id="owner-pics"></div>
+            </div>
+        </div>
+</body>
+</html>
+
+<script> loadAllKore();
+setupOwners();</script>
