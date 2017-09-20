@@ -47,7 +47,7 @@ function submitEditForm() {
         })
 
     }).success(function(){
-        console("Edit maybe worked?!");
+        console.log("Edit maybe worked?!");
 
         populateKoreTable();
         populateFormOwners();
