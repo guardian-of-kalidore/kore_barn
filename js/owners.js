@@ -35,3 +35,26 @@ function populateFormOwners() {
         }
     });
 }
+
+function submitAddOwnerForm() {
+    console.log("Got an add request. Working...");
+
+    $.post({
+        url: "https://kalidore-microservice.herokuapp.com/owner/new" + $("#edit-modal-name").val(),
+        //headers: {
+        //    'Accept' : 'application/json', //Whatcha want back
+        //    'Content-Type' : 'application/json' // Whatcha sending
+        //},
+        //'dataType' : 'json', // Whatcha sending, data type
+        //data : JSON.stringify({
+        //    "ownerName" : $("#edit-modal-name").val(),
+        //})
+
+    }).success(function(){
+        alert("Added.")
+
+        $("#edit-modal-name").val('');
+    }).error(function(){
+        alert("Something went wrong. Page the Bean!!");
+    });
+}
