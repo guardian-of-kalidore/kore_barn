@@ -40,7 +40,7 @@ function submitAddOwnerForm() {
     console.log("Got an add request. Working...");
 
     $.post({
-        url: "https://kalidore-microservice.herokuapp.com/owner/new" + $("#edit-modal-name").val(),
+        url: "https://kalidore-microservice.herokuapp.com/owner/new/" + $("#edit-modal-name").val(),
         //headers: {
         //    'Accept' : 'application/json', //Whatcha want back
         //    'Content-Type' : 'application/json' // Whatcha sending
