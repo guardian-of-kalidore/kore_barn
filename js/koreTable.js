@@ -43,13 +43,17 @@ function fillKoreTable(koreList){
 }
 
 function koreToRow(kore) {
+    console.log("Trying to turn into row: " + kore);
     var koreRow = $("<tr>");
 
     var picField = $("<td>").attr("width", "15%");
-    if (kore.mainPic != null) {
+    if (kore.thumbNail != null) {
         picField.append('<img height="50px" src="' + kore.thumbNail + '">');
-    } else {
-        picField.append('n/a');
+    } else if(kore.mainPic != null) {
+        picField.append('<img height="50px" src="' + kore.mainPic + '">');
+    } else{
+            picField.append('n/a');
+
     }
 
     var nameField = $("<td>").attr("width", "20%");
