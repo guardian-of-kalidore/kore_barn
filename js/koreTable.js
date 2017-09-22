@@ -47,7 +47,7 @@ function koreToRow(kore) {
 
     var picField = $("<td>").attr("width", "15%");
     if (kore.mainPic != null) {
-        picField.append('<img height="50px" src="' + kore.mainPic + '">');
+        picField.append('<img height="50px" src="' + kore.thumbNail + '">');
     } else {
         picField.append('n/a');
     }
