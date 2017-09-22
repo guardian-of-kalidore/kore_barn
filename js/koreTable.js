@@ -43,7 +43,8 @@ function fillKoreTable(koreList){
 }
 
 function koreToRow(kore) {
-    console.log("Trying to turn into row: " + kore);
+    console.log("Trying to turn into row: ");
+    console.log(kore);
     var koreRow = $("<tr>");
 
     var picField = $("<td>").attr("width", "15%");
@@ -73,7 +74,7 @@ function koreToRow(kore) {
     koreRow.append(ownerField);
     koreRow.append(deleteBtn);
     koreRow.append(editBtn);
-
+    console.log(koreRow);
     return koreRow;
 }
 
