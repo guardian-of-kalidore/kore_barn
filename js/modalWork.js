@@ -178,7 +178,7 @@ function fillModalDetails(id, modal) {
                     );
 
                     console.log($("#"+tag.typeId+"."+tag.tagId));
-                    $("#t"+tag.tagId).attr('checked', true);
+                    $("#t"+tag.tagId).prop('checked', true);
                 }
 
             }
