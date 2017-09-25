@@ -60,6 +60,14 @@ function submitEditForm() {
     });
 }
 
+function clearTags(){
+    $(".koretag").each(function(){
+        if( $(this).is(':checked') ){
+            $(this).attr('checked', false);
+        }
+    });
+}
+
 function submitTagForm(){
     console.log("Got an tag edit request. Working...");
 
@@ -90,6 +98,7 @@ function submitTagForm(){
 
         populateKoreTable();
         populateFormOwners();
+        clearTags();
 
     });
 }
@@ -167,6 +176,9 @@ function fillModalDetails(id, modal) {
                     $("#details-modal-tags").append(
                         "<span class='label label-primary'>" + tag.tagName + "</span>"
                     );
+
+                    console.log($("#"+tag.typeId+"."+tag.tagId));   
+                    $("#"+tag.typeId+"."+tag.tagId).attr('checked', true);
                 }
 
             }
