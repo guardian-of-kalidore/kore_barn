@@ -110,6 +110,22 @@ function fillModalDetails(id, modal) {
             $("#edit-modal-dam").val('');
         }
 
+        console.log("Tags...");
+        console.log(koreDetails.tags);
+
+        if(koreDetails.tags != null){
+            for(var g = 0; g < koreDetails.tags.length ; g++){
+                for(var t = 0; t < koreDetails.tags[g].length; t++){
+                    $("#details-modal-tags").append(
+                        "<span class='label label-primary'>" + koreDetails.tags[g][t].tagName + "</span>"
+                    )
+                }
+
+            }
+        } else{
+
+        }
+
         $(modal).modal('show');
     });
 }
