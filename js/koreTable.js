@@ -56,32 +56,17 @@ function fillKoreTable(koreList){
     }
 }
 
-function fillTagList(tagMap){
-    var allTags = $("#edit-tags");
-    allTags.empty();
+function fillTagList(tagList){
 
-
-    var tagGroups = Object.keys(tagMap);
-    for(var g = 0; g < tagGroups.length ; g++){
-        var groupName = tagGroups[g];
-        var tagGroup = $("div");
-
-        for(var t = 0; t < tagMap[groupName].length; t++){
-            var tag = tagMap[groupName][t];
-            $("#details-modal-tags").append(
-                "<span class='label label-primary'>" + tag.tagName + "</span>"
-            );
-
-            tagGroup.append(
-                "<label class='checkbox-inline'><input type='checkbox' value='"
-                + tag.typeId +"."+tag.tagId +"'>" +
-                tag.tagName + "</label>"
-            );
-
-        }
-
-        $("#edit-tags").append(tagGroup);
-
+    var tagNames = Object.keys(tagList);
+    for(var t = 0; t < tagNames.length ; t++){
+        var tag = tagNames[g];
+        var tagGroup = $("#edit-tags-"+tag.typeId);
+        tagGroup.append(
+            "<label class='checkbox-inline'><input type='checkbox' value='"
+            + tag.typeId +"."+tag.tagId +"'>" +
+            tag.tagName + "</label>"
+        );
     }
 
 }
