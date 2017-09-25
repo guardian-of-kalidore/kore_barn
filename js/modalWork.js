@@ -83,7 +83,7 @@ function submitTagForm(){
     });
 
     $.post({
-        url: "https://kalidore-microservice.herokuapp.com/kore/update/id/"+$("#edit-modal-id").val(),
+        url: "https://kalidore-microservice.herokuapp.com/kore/id/"+$("#edit-modal-id").val()+"/tags",
         headers: {
             'Accept' : 'application/json', //Whatcha want back
             'Content-Type' : 'application/json' // Whatcha sending
