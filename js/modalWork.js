@@ -60,6 +60,38 @@ function submitEditForm() {
     });
 }
 
+function submitTagForm(){
+    console.log("Got an tag edit request. Working...");
+
+    var tagsToSend = [];
+    var tag;
+
+    $(".koretags").each(function(){
+        if( $(this).attr('checked') ){
+            tagsToSend.push($( this).val());
+        }
+    });
+
+    $.post({
+        url: "https://kalidore-microservice.herokuapp.com/kore/update/id/"+$("#edit-modal-id").val(),
+        headers: {
+            'Accept' : 'application/json', //Whatcha want back
+            'Content-Type' : 'application/json' // Whatcha sending
+        },
+        'dataType' : 'json', // Whatcha sending, data type
+        data : JSON.stringify({
+            tagsSelected : tagsToSend
+        })
+
+    }).success(function(){
+        console.log("Edit maybe worked?!");
+
+        populateKoreTable();
+        populateFormOwners();
+
+    });
+}
+
 function fillModalDetails(id, modal) {
 
     $.get({
@@ -80,6 +112,7 @@ function fillModalDetails(id, modal) {
         $("#details-modal-name").html(kore.name);
         $("#edit-modal-name").val(kore.name);
         $("#edit-modal-id").val(kore.id);
+        $("#tag-edit-kore-id").val(kore.id);
 
         $("#details-modal-edit-btn").html('<a onclick="editKore(' + kore.id + ')" data-dismiss="modal"><span class="glyphicon glyphicon-pencil" style="color:darkblue;"></span></a>');
 
