@@ -67,7 +67,9 @@ function submitTagForm(){
     var tag;
 
     $(".koretag").each(function(){
-        if( $(this).attr('checked') ){
+        if( $(this).is(':checked') ){
+            console.log("Found a checked tag");
+            console.log($(this));
             tagsToSend.push($( this).val());
         }
     });
