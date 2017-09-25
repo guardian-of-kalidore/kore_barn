@@ -59,14 +59,15 @@ function fillKoreTable(koreList){
     }
 }
 
-function fillTagList(tagList){
+function fillTagList(tagMap){
 
     var tagNames = Object.keys(tagList);
     console.log(tagNames);
 
     for(var t = 0; t < tagNames.length ; t++){
+        var tagName = tagNames[t];
+        var tag = tagMap[tagName];
 
-        var tag = tagNames[g];
         var tagGroup = $("#edit-tags-"+tag.typeId);
         tagGroup.append(
             "<label class='checkbox-inline'><input type='checkbox' value='"
