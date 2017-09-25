@@ -139,7 +139,7 @@ function fillModalDetails(id, modal) {
 
                 }
 
-                $("#edit-modal-tags").append(tagGroup);
+                $("#edit-tags").append(tagGroup);
 
             }
         } else{
