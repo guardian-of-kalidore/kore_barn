@@ -10,6 +10,9 @@ function populateEditTags() {
         'dataType': 'json'
 
     }).success(function (tagMap) {
+        console.log("Got me a lot of things");
+        console.log(tagMap);
+
         fillTagList(tagMap);
     });
 }
@@ -59,7 +62,10 @@ function fillKoreTable(koreList){
 function fillTagList(tagList){
 
     var tagNames = Object.keys(tagList);
+    console.log(tagNames);
+
     for(var t = 0; t < tagNames.length ; t++){
+
         var tag = tagNames[g];
         var tagGroup = $("#edit-tags-"+tag.typeId);
         tagGroup.append(

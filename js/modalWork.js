@@ -119,6 +119,7 @@ function fillModalDetails(id, modal) {
         console.log(koreDetails.tags);
 
         if(koreDetails.tags != null){
+            $("#details-modal-tags").empty();
             var tagGroups = Object.keys(koreDetails.tags);
             for(var g = 0; g < tagGroups.length ; g++){
                 var groupName = tagGroups[g];
