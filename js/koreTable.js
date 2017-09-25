@@ -71,7 +71,7 @@ function fillTagList(tagMap){
         var tagGroup = $("#edit-tags-"+tag.typeId);
         tagGroup.append(
             "<label class='checkbox-inline'><input type='checkbox' class='koretag' " +
-            " id='"+ tag.tagId +
+            " id='t"+ tag.tagId +
             "' value='" + tag.typeId +"."+tag.tagId +"'>" +
             tag.tagName + "</label>"
         );
