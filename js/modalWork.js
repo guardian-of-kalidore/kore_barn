@@ -85,7 +85,10 @@ function fillModalDetails(id, modal) {
 
         $("#details-modal-img").html('<img src="' + kore.mainPic + '">');
         $("#edit-modal-img").html('<img src="' + kore.mainPic + '">');
+        $("#edit-tag-img").html('<img src="' + kore.mainPic + '">');
+
         $("#edit-modal-pic").val(kore.mainPic);
+
 
         $("#edit-modal-owner-new").val('');
         $("#edit-modal-owner-chk").attr('checked', false);
