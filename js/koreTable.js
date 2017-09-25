@@ -69,11 +69,15 @@ function koreToRow(kore) {
     var editBtn = $("<td>").attr("width", "10%");
     editBtn.append('<a onclick="editKore(' + kore.id + ')"><span class="glyphicon glyphicon-pencil" style="color:darkblue;"></span></a>');
 
+    var tagBtn = $("<td>").attr("width", "10%");
+    tagBtn.append('<a onclick="editKoreTags(' + kore.id + ')"><span class="glyphicon glyphicon-list" style="color:darkgreen;"></span></a>');
+
     koreRow.append(picField);
     koreRow.append(nameField);
     koreRow.append(ownerField);
     koreRow.append(deleteBtn);
     koreRow.append(editBtn);
+    koreRow.append(tagBtn);
     console.log(koreRow);
     return koreRow;
 }
