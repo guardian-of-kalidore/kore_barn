@@ -1,5 +1,19 @@
 var allKore = [];
 
+function populateEditTags() {
+    $.get({
+        url: "https://kalidore-microservice.herokuapp.com/tag/all",
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        'dataType': 'json'
+
+    }).success(function (tagMap) {
+        fillTagList(tagMap);
+    });
+}
+
 function populateKoreTable() {
     $.get({
         url: "https://kalidore-microservice.herokuapp.com/kore/all",
@@ -40,6 +54,36 @@ function fillKoreTable(koreList){
         koreRows.append(koreToRow(kore));
 
     }
+}
+
+function fillTagList(tagMap){
+    var allTags = $("#edit-tags");
+    allTags.empty();
+
+
+    var tagGroups = Object.keys(tagMap);
+    for(var g = 0; g < tagGroups.length ; g++){
+        var groupName = tagGroups[g];
+        var tagGroup = $("div");
+
+        for(var t = 0; t < tagMap[groupName].length; t++){
+            var tag = tagMap[groupName][t];
+            $("#details-modal-tags").append(
+                "<span class='label label-primary'>" + tag.tagName + "</span>"
+            );
+
+            tagGroup.append(
+                "<label class='checkbox-inline'><input type='checkbox' value='"
+                + tag.typeId +"."+tag.tagId +"'>" +
+                tag.tagName + "</label>"
+            );
+
+        }
+
+        $("#edit-tags").append(tagGroup);
+
+    }
+
 }
 
 function koreToRow(kore) {
