@@ -122,24 +122,13 @@ function fillModalDetails(id, modal) {
             var tagGroups = Object.keys(koreDetails.tags);
             for(var g = 0; g < tagGroups.length ; g++){
                 var groupName = tagGroups[g];
-                var tagGroup = $("div");
 
                 for(var t = 0; t < koreDetails.tags[groupName].length; t++){
                     var tag = koreDetails.tags[groupName][t];
                     $("#details-modal-tags").append(
                         "<span class='label label-primary'>" + tag.tagName + "</span>"
                     );
-
-
-                    tagGroup.append(
-                        "<label class='checkbox-inline'><input type='checkbox' value='"
-                                + tag.typeId +"."+tag.tagId +"'>" +
-                        tag.tagName + "</label>"
-                    );
-
                 }
-
-                $("#edit-tags").append(tagGroup);
 
             }
         } else{
