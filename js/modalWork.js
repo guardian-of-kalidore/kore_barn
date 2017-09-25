@@ -114,8 +114,11 @@ function fillModalDetails(id, modal) {
         console.log(koreDetails.tags);
 
         if(koreDetails.tags != null){
-            for(var g = 0; g < koreDetails.tags.length ; g++){
-                for(var t = 0; t < koreDetails.tags[g].length; t++){
+            var tagGroups = Object.keys(koreDetails.tags);
+            for(var g = 0; g < tagGroups.length ; g++){
+                var groupName = tagGroups[g];
+                for(var t = 0; t < koreDetails.tags[groupName].length; t++){
+                    var tag = koreDetails.tags[groupName][t];
                     $("#details-modal-tags").append(
                         "<span class='label label-primary'>" + koreDetails.tags[g][t].tagName + "</span>"
                     )
