@@ -66,7 +66,7 @@ function submitTagForm(){
     var tagsToSend = [];
     var tag;
 
-    $(".koretags").each(function(){
+    $(".koretag").each(function(){
         if( $(this).attr('checked') ){
             tagsToSend.push($( this).val());
         }
