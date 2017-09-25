@@ -61,7 +61,7 @@ function fillKoreTable(koreList){
 
 function fillTagList(tagMap){
 
-    var tagNames = Object.keys(tagList);
+    var tagNames = Object.keys(tagMap);
     console.log(tagNames);
 
     for(var t = 0; t < tagNames.length ; t++){
