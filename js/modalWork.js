@@ -177,8 +177,8 @@ function fillModalDetails(id, modal) {
                         "<span class='label label-primary'>" + tag.tagName + "</span>"
                     );
 
-                    console.log($("#"+tag.typeId+"."+tag.tagId));   
-                    $("#"+tag.typeId+"."+tag.tagId).attr('checked', true);
+                    console.log($("#"+tag.typeId+"."+tag.tagId));
+                    $("#t"+tag.tagId).attr('checked', true);
                 }
 
             }
