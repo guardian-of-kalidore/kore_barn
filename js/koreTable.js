@@ -1,7 +1,6 @@
 var allKore = [];
 
 function populateKoreTable() {
-    $( "#kore-table" ).load( "snippets/kore_table.html" );
 
     $.get({
         url: "https://kalidore-microservice.herokuapp.com/kore/all",
