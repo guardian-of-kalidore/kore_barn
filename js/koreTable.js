@@ -48,7 +48,7 @@ function koreToRow(kore) {
     console.log(kore);
     var koreRow = $("<tr>");
 
-    var picField = $("<td>").attr("width", "15%");
+    var picField = $("<td>").attr("width", "20%");
     if (kore.thumbNail != null) {
         picField.append('<img height="50px" src="' + kore.thumbNail + '">');
     } else if(kore.mainPic != null) {
@@ -58,11 +58,21 @@ function koreToRow(kore) {
 
     }
 
-    var nameField = $("<td>").attr("width", "20%");
+    var nameField = $("<td>").attr({
+        width : "20%",
+        class : "text-center"
+    });
     nameField.append('<a onclick="showDetails(' + kore.id + ')">' + kore.name + '</a>');
-    var ownerField = $("<td>").attr("width", "20%");
+
+    var ownerField = $("<td>").attr({
+        width : "20%",
+        class : "text-center"
+    });
+
     if (kore.owner != null && kore.owner.name != null) {
         ownerField.append('<a onclick="populateKoreTableWithOwner(' + kore.owner.id + ')">'+kore.owner.name+'</a>');
+    }else{
+        ownerField.append('<a onclick="populateNoOwnerKore(' + kore.owner.id + ')"> N/A </a>');
     }
 
     var deleteBtn = $("<td>").attr("width", "10%");
