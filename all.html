@@ -29,6 +29,8 @@
         populateEditTags();
 
 
+
+
         $("#edit-modal-owner-chk").click(function () {
             toggleEditOwnerType();
         });
@@ -49,183 +51,14 @@
         </ul>
     </div>
     <div class="col-xs-9">
-        <table class="table table-fixed col-lg-12 col-md-12">
-            <thead>
-            <tr>
-                <th width="15%">Pic</th>
-                <th width="20%">Name</th>
-                <th width="20%">Owner</th>
-                <th width="10%">Delete</th>
-                <th width="10%">Edit</th>
-            </tr>
-            </thead>
-            <tbody id="kore-rows"></tbody>
-        </table>
-    </div>
-</div>
-
-
-<!-- Details Modal -->
-<div id="kore-modal" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
-            <div class="modal-body">
-                <h1 id="details-modal-name" class="text-center">Kore Name</h1>
-                <div id="details-modal-img" class="text-center"></div>
-                <table class="table">
-                    <tr>
-                        <td>Owner:<span id="details-modal-owner"></span></td>
-                    </tr>
-                    <tr>
-                        <td>Dam: <span id="details-modal-dam"></span></td>
-                    </tr>
-                    <tr>
-                        <td>Sire: <span id="details-modal-sire"></span></td>
-                    </tr>
-
-                    <tr>
-                        <td>Tags: <span id="details-modal-tags"></span></td>
-                    </tr>
-
-                </table>
-
-            </div>
-            <div class="modal-footer">
-                <button id="details-modal-edit-btn"></button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
-        </div>
 
     </div>
 </div>
 
-<!-- General Edit Modal -->
-<div id="edit-modal" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <input type="hidden" id="edit-modal-id">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
-            <div class="modal-body">
-                <div id="edit-modal-img" class="text-center"></div>
-                <div class="form-horizontal">
-                    <div class="form-group">
-                        <label class="control-label col-sm-2" for="edit-modal-name">Name:</label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" id="edit-modal-name" placeholder="Name">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-sm-2" for="edit-modal-color">Color:</label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" id="edit-modal-color" placeholder="Color">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-sm-2" for="edit-modal-pic">Pic Url:</label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" id="edit-modal-pic" placeholder="Picture Url">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-sm-2" for="edit-modal-owner-new">Owner:</label>
-                        <div class="col-sm-10">
-                            <div class="checkbox">
-                                <label><input disabled type="checkbox" id="edit-modal-owner-chk">New Owner?</label>
-                            </div>
-                            <input hidden type="text" class="form-control" id="edit-modal-owner-new"
-                                   placeholder="New Owner Name">
-                            <label for="edit-modal-owner-dropdown" id="edit-modal-owner-dropdown-label">Select
-                                Owner:</label>
-                            <select class="form-control" id="edit-modal-owner-dropdown"></select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-sm-2" for="edit-modal-dam">Dam:</label>
-                        <div class="col-sm-10">
-                            <label for="edit-modal-dam">Select Dam:</label>
-                            <select class="form-control" id="edit-modal-dam"></select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-sm-2" for="edit-modal-sire">Sire:</label>
-                        <div class="col-sm-10">
-                            <label for="edit-modal-sire">Select Sire:</label>
-                            <select class="form-control" id="edit-modal-sire"></select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-sm-offset-2 col-sm-10">
-                            <button onclick="submitEditForm()" class="btn btn-default" data-dismiss="modal">Submit
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
 
-<!-- Tag Edit Modal -->
-<div id="edit-modal-tags" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <input type="hidden" id="tag-edit-kore-id">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
-            <div class="modal-body">
-                <div id="edit-tag-img" class="text-center"></div>
-                <div class="form-horizontal">
-                    <div class="form-group">
-                        <label class="control-label col-sm-2" for="edit-tags-1">Descriptors:</label>
-                        <div class="col-sm-10" id="edit-tags-1"></div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-sm-2" for="edit-tags-2">Breed:</label>
-                        <div class="col-sm-10" id="edit-tags-2"></div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-sm-2" for="edit-tags-3">Genetics:</label>
-                        <div class="col-sm-10" id="edit-tags-3"></div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-sm-2" for="edit-tags-4">Color:</label>
-                        <div class="col-sm-10" id="edit-tags-4"></div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-sm-2" for="edit-tags-5">Event:</label>
-                        <div class="col-sm-10" id="edit-tags-5"></div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-sm-2" for="edit-tags-6">Stones:</label>
-                        <div class="col-sm-10" id="edit-tags-6"></div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-sm-offset-2 col-sm-10">
-                            <button onclick="submitTagForm()" class="btn btn-default" data-dismiss="modal">Submit
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
+
+
+
 
 </body>
 </html>

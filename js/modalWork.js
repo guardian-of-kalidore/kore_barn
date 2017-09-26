@@ -60,14 +60,6 @@ function submitEditForm() {
     });
 }
 
-function clearTags(){
-    $(".koretag").each(function(){
-        if( $(this).is(':checked') ){
-            $(this).attr('checked', false);
-        }
-    });
-}
-
 function submitTagForm(){
     console.log("Got an tag edit request. Working...");
 
@@ -98,7 +90,7 @@ function submitTagForm(){
 
         populateKoreTable();
         populateFormOwners();
-        clearTags();
+        clearEditTags();
 
     });
 }
