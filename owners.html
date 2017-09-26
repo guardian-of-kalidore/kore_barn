@@ -32,14 +32,10 @@
 
         loadSnippets();
 
-        populateFormOwners();
         populateNoOwnerKore();
         loadOwnerMenu();
 
 
-        $("#edit-modal-owner-chk").click(function () {
-            toggleEditOwnerType();
-        });
 
     });
 
@@ -106,9 +102,21 @@
             <li><a href="add_kore.html">Add</a></li>
         </ul>
     </div> <!-- end navbar -->
-    <div id="kore-table" class="col-xs-9"></div>
+    <div id="kore-table" class="col-xs-9">
+        <table class="table table-fixed col-lg-12 col-md-12">
+            <thead>
+            <tr>
+                <th width="15%">Pic</th>
+                <th width="20%">Name</th>
+                <th width="20%">Owner</th>
+                <th width="10%">Delete</th>
+                <th width="10%">Edit</th>
+            </tr>
+            </thead>
+            <tbody id="kore-rows"></tbody>
+        </table>
+    </div>
 </div>
-
 
 <div id="kore-details"></div>
 <div id="kore-edit"></div>

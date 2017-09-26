@@ -15,12 +15,13 @@
     <script src="js/bootstrap.min.js"></script>
     <link href="css/bootstrap.min.css" rel="stylesheet">
 
+    <script src="js/loaders.js"></script>
+
     <script src="js/koreTable.js"></script>
     <script src="js/owners.js"></script>
     <script src="js/tags.js"></script>
     <script src="js/modalWork.js"></script>
-
-    <script src="js/loaders.js"></script>
+    <script src="js/ownerMenu.js"></script>
 </head>
 
 <script>
@@ -29,15 +30,13 @@
         loadSnippets();
 
         populateKoreTable();
-        populateFormOwners();
+
         populateEditTags();
 
 
 
 
-        $("#edit-modal-owner-chk").click(function () {
-            toggleEditOwnerType();
-        });
+
 
     });
 
@@ -54,7 +53,20 @@
             <li ><a href="add_kore.html">Add</a></li>
         </ul>
     </div>
-    <div id="kore-table" class="col-xs-9"></div>
+    <div id="kore-table" class="col-xs-9">
+        <table class="table table-fixed col-lg-12 col-md-12">
+            <thead>
+            <tr>
+                <th width="15%">Pic</th>
+                <th width="20%">Name</th>
+                <th width="20%">Owner</th>
+                <th width="10%">Delete</th>
+                <th width="10%">Edit</th>
+            </tr>
+            </thead>
+            <tbody id="kore-rows"></tbody>
+        </table>
+    </div>
 </div>
 
 <div id="kore-details"></div>
