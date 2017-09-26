@@ -1,5 +1,7 @@
 function fillTagList(tagMap){
 
+    $( "#kore-tags" ).load( "snippets/tags_modal.html" );
+
     var tagNames = Object.keys(tagMap);
     console.log(tagNames);
 

@@ -26,14 +26,14 @@
 
     $(document).ready(function () {
         populateKoreTable();
-//        populateFormOwners();
-//        populateEditTags();
+        populateFormOwners();
+        populateEditTags();
 
 
 
 
         $("#edit-modal-owner-chk").click(function () {
-//            toggleEditOwnerType();
+            toggleEditOwnerType();
         });
 
     });
@@ -51,15 +51,12 @@
             <li ><a href="add_kore.html">Add</a></li>
         </ul>
     </div>
-    <div id="kore-table" class="col-xs-9">
-
-    </div>
+    <div id="kore-table" class="col-xs-9"></div>
 </div>
 
-
-
-
-
+<div id="kore-details"></div>
+<div id="kore-edit"></div>
+<div id="kore-tags"></div>
 
 </body>
 </html>

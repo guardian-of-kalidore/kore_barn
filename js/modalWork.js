@@ -97,6 +97,10 @@ function submitTagForm(){
 
 function fillModalDetails(id, modal) {
 
+    $( "#kore-edit" ).load( "snippets/tags_modal.html" );
+    $( "#kore-details" ).load( "snippets/tags_modal.html" );
+
+
     $.get({
         url: "https://kalidore-microservice.herokuapp.com/kore/id/" + id,
         headers: {
